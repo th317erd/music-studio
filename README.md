@@ -1,2 +1,1 @@
-# music-studio
-In-browser music studio
+# Music Studio for the Browser

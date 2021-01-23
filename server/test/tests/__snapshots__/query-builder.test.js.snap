@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QueryBuilder do a join with a query builder 1`] = `"SELECT * FROM \\"fluid\\" JOIN \\"fluid_sources\\" ON (\\"fluid_sources\\".\\"fluid_sources_fluid_id\\"=\\"fluid\\".\\"id\\") WHERE \\"fluid_sources\\".\\"heartbeats_heartbeat_id\\"='HB:b9c62f26-7e1b-44fc-89da-b39400b38546' ORDER BY \\"fluid_sources\\".\\"fluid_sources_fluid_order\\" DESC"`;
+
+exports[`QueryBuilder serialize a query builder 1`] = `"[\\"id ASC\\",10,1,100]heartbeat:id=\\"test\\"&heartbeat:name%\\"*derp*\\"&heartbeat:time>\\"2018-09-21\\""`;
