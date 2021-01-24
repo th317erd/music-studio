@@ -63,6 +63,7 @@ module.exports = {
   APP_STAND_ALONE_BUNDLE: resolveClient('stand-alone/js/bundle.js'),
   APP_TEST_BUNDLE: resolveApp('spec'),
   APP_INDEX: resolveClient('source/index.js'),
+  FFMPEG_INDEX: resolveClient('source/ffmpeg-worker.js'),
   APP_MAIN: resolveClient('source/application.js'),
   APP_PACKAGE: resolveApp('package.json'),
   APP_SRC: resolveClient('source'),

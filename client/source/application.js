@@ -19,13 +19,10 @@ import mainStyleSheet                         from './main-styles';
 import { loadApplicationFonts }               from './fonts';
 import { DataStore }                          from '@common/data-store';
 import Pages                                  from '@pages';
-import {
-  getRegisteredPages,
-  parseURIParts
-}                                             from '@base/utils';
+import { getRegisteredPages }                 from '@base/utils';
 import { Application as ApplicationBase }     from '@react-ameliorate/component-application';
 import applicationIcons                       from './icons';
-import moment                                 from 'moment';
+import { handleMessage, sendMessage }         from './worker-utils';
 
 const DEFAULT_PAGE_INDEX = 3;
 
@@ -41,15 +38,41 @@ export const Application = componentFactory('Application', ({ Parent, componentN
 
       this.theme = new Theme();
       this.store = new DataStore({ debug: __DEV__ });
+      this.ffmpegWorker = null;
 
       // Build style sheet for browser
       this._defineStyleSheetProperty('browserStyleSheet', mainStyleSheet);
+    }
+
+    ffmpegWorkerReceiveMessage(event) {
+      handleMessage(event, {
+        'ready': () => {
+          console.log('Worker reports it is ready!');
+        }
+      });
+    }
+
+    ffmpegWorkerSendMessage(eventName, args) {
+      if (!this.ffmpegWorker)
+        return Promise.reject('Worker not available');
+
+      return sendMessage(this.ffmpegWorker, eventName, args);
     }
 
     componentMounted() {
       super.componentMounted.apply(this, arguments);
 
       this.start();
+
+      this.ffmpegWorker = new Worker("/js/ffmpeg_worker.js");
+      this.ffmpegWorker.onmessage = this.ffmpegWorkerReceiveMessage;
+    }
+
+    componentUnmounting() {
+      if (this.ffmpegWorker)
+        this.ffmpegWorker.terminate();
+
+      super.componentUnmounting.apply(this, arguments);
     }
 
     async start() {

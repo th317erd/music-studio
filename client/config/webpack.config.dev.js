@@ -20,13 +20,6 @@ if (HTTPS) {
 
 module.exports = Object.assign(module.exports, baseConfig.webpack, {
   mode: 'development',
-  entry: [
-    'regenerator-runtime/runtime',
-    'react-hot-loader/patch',
-    `webpack-dev-server/client?${PROTOCOL}://music-studio.com:${PORT}`,
-    //'webpack/hot/only-dev-server',
-    PATHS.APP_INDEX
-  ],
   devServer: {
     hot: false,
     https: HTTPS,
@@ -78,13 +71,6 @@ module.exports = Object.assign(module.exports, baseConfig.webpack, {
   },
   plugins: [
     new webpack.DefinePlugin(baseConfig.globals),
-    // Moment.js is an extremely popular library that bundles large locale files
-    // by default due to how Webpack interprets its code. This is a practical
-    // solution that requires the user to opt into importing specific locales.
-    // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-    // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new webpack.HotModuleReplacementPlugin(),
     new CircularDependencyPlugin({
       // exclude detection of files based on a RegExp
       exclude: /(node_modules)/,

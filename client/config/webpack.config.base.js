@@ -87,13 +87,35 @@ module.exports = {
   PATHS,
   resolve: webpackResolve,
   webpack: {
-    entry: [ 'regenerator-runtime/runtime', PATHS.APP_INDEX ],
+    entry: {
+      main: [ 'regenerator-runtime/runtime', PATHS.APP_INDEX ],
+      ffmpeg_worker: [ 'regenerator-runtime/runtime', PATHS.FFMPEG_INDEX ]
+    },
     output: {
       path: PATHS.APP_PUBLIC,
       publicPath: '/js/',
-      filename: 'bundle.js'
+      filename: '[name].js'
     },
-    resolve: webpackResolve
+    resolve: webpackResolve,
+    target: 'web',
+    optimization: {
+      runtimeChunk: 'single',
+      removeAvailableModules: true,
+      splitChunks: {
+        chunks: 'all',
+        minSize: 0,
+        maxSize: Infinity,
+        cacheGroups: {
+          common: {
+            test:   /[\\/]node_modules[\\/]/,
+            name:   'vendor',
+            chunks: 'initial',
+            minChunks: 1,
+            reuseExistingChunk: true
+          }
+        }
+      }
+    }
   },
   compilerIncludePatterns,
   buildLoaderConfig: (...opts) => {

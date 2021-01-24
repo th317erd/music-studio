@@ -38,6 +38,7 @@
     "events": "^3.2.0",
     "evisit-js-utils": "^0.8.6",
     "extract-text-webpack-plugin": "3.0.2",
+    "ffmpeg.js": "^4.2.9003",
     "file-loader": "6.2.0",
     "gsap": "^3.6.0",
     "hapi": "^17.8.1",
